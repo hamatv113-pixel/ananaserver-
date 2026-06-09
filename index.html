@@ -98,7 +98,10 @@ img {
         img.addEventListener('click', function(event) {
             // Увеличиваем счётчик (невидимый)
             clickCount++;
-            navigator.vibrate(200)
+            
+            if (navigator.vibrate) {
+    navigator.vibrate(200);
+}
             // Если это 5-й клик — перенаправляем на другой HTML-файл
             if (clickCount >= 5) {
                 // Замените '2.html' на имя вашего целевого файла
