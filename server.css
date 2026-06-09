@@ -1,0 +1,4 @@
+img.pixel-gif {
+    image-rendering: -webkit-optimize-contrast; /* Для старых версий Safari */
+    image-rendering: pixelated;                 /* Основной стандарт для современных браузеров */
+}

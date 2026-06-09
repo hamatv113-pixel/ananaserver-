@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Лингангули</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* чтобы случайно не выделить картинку */
+        }
+img {
+      position: fixed;
+      
+      width: 64px;            /* на всю ширину */
+      
+      height: auto;           /* пропорции сохранены */
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+        body {
+            min-height: 100vh;
+            background: #f0f0f0;
+            overflow: hidden;   /* убираем полосы прокрутки, чтобы картинка не выходила за пределы экрана */
+            position: relative;
+        }
+
+        /* Стиль для убегающей картинки */
+        #runaway {
+            position: fixed;
+            width: 64px;
+            height: 64px;
+            cursor: pointer;
+            /* Начальное положение — по центру экрана */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #almaz {
+    position: fixed;
+    top: 0;
+    left: calc(100% - 32px);
+    width: 64px;
+    height: auto;
+    /* убираем transform, bottom и left */
+     } 
+
+    </style>
+</head>
+<body>
+
+<h6 style="color: #808080;">Сделал Хаматов Ильяс.</h1>
+
+
+<a href="https://drive.google.com/file/d/1Wq4YpG4hiSVUb6Zl719BmaVcxRuwLo7r/view?usp=drivesdk" target="_blank">
+<img id="almaz" src="Almaz.png" alt="не реклама!" style="image-rendering: pixelated">
+</a>
+
+<img src="Robert.gif" alt="Роберт" style="image-rendering: pixelated">
+
+
+<!-- Картинка-кнопка. Убедитесь, что файл texture.gif (240×240) лежит рядом с этим HTML -->
+<img id="runaway" src="texture.gif" alt="ха-ха-ха" width="64" height="64" style="image-rendering: pixelated">
+
+<script>
+    (function() {
+        // Счётчик кликов — невидимый, без интерфейса
+        let clickCount = 0;
+
+        const img = document.getElementById('runaway');
+
+        // Функция для перемещения картинки в случайное место в пределах окна
+        function moveImageRandomly() {
+            // Получаем размеры окна
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+
+            // Размеры картинки (240x240)
+            const imgWidth = 16;
+            const imgHeight = 16;
+
+            // Рассчитываем максимальные координаты, чтобы картинка полностью помещалась
+            const maxX = Math.max(0, winWidth - imgWidth);
+            const maxY = Math.max(0, winHeight - imgHeight);
+
+            // Случайные координаты
+            const randomX = Math.floor(Math.random() * (maxX + 1));
+            const randomY = Math.floor(Math.random() * (maxY + 1));
+
+            // Применяем новые координаты
+            img.style.left = randomX + 'px';
+            img.style.top = randomY + 'px';
+        }
+
+        // Обработчик клика по картинке
+        img.addEventListener('click', function(event) {
+            // Увеличиваем счётчик (невидимый)
+            clickCount++;
+            navigator.vibrate(200)
+            // Если это 5-й клик — перенаправляем на другой HTML-файл
+            if (clickCount >= 5) {
+                // Замените '2.html' на имя вашего целевого файла
+                window.location.href = '2.html';
+                return; // чтобы не выполнять перемещение после перехода
+            }
+
+            // Для всех кликов, кроме 5-го, картинка убегает
+            moveImageRandomly();
+        });
+
+        // Дополнительно: если окно изменяет размер, пересчитываем позицию,
+        // чтобы картинка не ушла за границы (опционально, для удобства)
+        window.addEventListener('resize', function() {
+            // Убедимся, что картинка не вылезает за пределы после изменения размера окна
+            const winWidth = window.innerWidth;
+            const winHeight = window.innerHeight;
+            const imgWidth = 240;
+            const imgHeight = 240;
+
+            let currentLeft = parseFloat(img.style.left);
+            let currentTop = parseFloat(img.style.top);
+
+            if (isNaN(currentLeft)) currentLeft = winWidth/2 - imgWidth/2;
+            if (isNaN(currentTop)) currentTop = winHeight/2 - imgHeight/2;
+
+            const maxX = winWidth - imgWidth;
+            const maxY = winHeight - imgHeight;
+
+            if (currentLeft > maxX) currentLeft = maxX;
+            if (currentLeft < 0) currentLeft = 0;
+            if (currentTop > maxY) currentTop = maxY;
+            if (currentTop < 0) currentTop = 0;
+
+            img.style.left = currentLeft + 'px';
+            img.style.top = currentTop + 'px';
+        });
+    })();
+</script>
+</body>
+</html>
