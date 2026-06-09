@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ananaserver.ru</title>
+</head>
+
+<body style="text-align: center; padding-top: 50px; background-color: #000000;">
+    <h1 style="color: #ffffff;">Привет!<br>Ты открыл сайт моего приватного Майнкрафт сервера "mc.ananaserver.ru".</h1>
+<img src="67.gif" class="pixel-img full-screen-gif" alt="67" style="image-rendering: pixelated; width="1080"; height="1080";>
+
+</body>
+
+<audio loop autoplay>
+  <source src="Hypnodance.mp3" type="audio/mpeg">
+</audio>
+
+
+
+
+
+<div id="mc-widget" style="font:20px/1.4 system-ui,sans-serif;padding:12px 14px;border:1px solid #ddd;border-radius:12px;color:#fff;display:inline-block;min-width:400px">
+  <div style="font-weight:600;margin-bottom:6px">mc.ananaserver.ru</div>
+  <div id="mc-status">Загрузка…</div>
+  <div id="mc-players"></div>
+</div>
+
+<script>
+(async () => {
+  const statusEl = document.getElementById('mc-status');
+  const playersEl = document.getElementById('mc-players');
+
+  try {
+    const res = await fetch('https://api.mcstatus.io/v2/status/java/mc.ananaserver.ru');
+    const data = await res.json();
+
+    if (data.online) {
+      statusEl.textContent = 'Сервер онлайн🟢 ';
+      playersEl.textContent = `${data.players?.online ?? 0} / ${data.players?.max ?? 0} игроков`;
+    } else {
+      statusEl.textContent = 'Сервер офлайн🔴 ';
+      playersEl.textContent = '';
+    }
+  } catch (e) {
+    statusEl.textContent = 'Ошибка загрузки🚫 ';
+    playersEl.textContent = '';
+  }
+})();
+</script>
+</html>
